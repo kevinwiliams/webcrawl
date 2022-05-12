@@ -22,10 +22,10 @@ class ShrinkController extends Controller
         ]);
 
         $data['url'] = $request->url;
-        $data['shrunk_url'] = 'https://'.Str::random(5).'.shrt';
-
+        $data['shrunk_url'] = Str::random(5);
+        // add to db
         ShortLink::create($data);
-
+        //call function to get page title for submitted URL
         $this->getTitle($request->url);
 
         return redirect('/')->with('success', 'Shorten Link Generated Successfully!');
@@ -56,13 +56,13 @@ class ShrinkController extends Controller
 
     }
 
-    public function shorternLink($id){
+    public function shorternLink($code){
 
         // get original URL from database 
-        $getLink = ShortLink::where('id', $id)->first();
+        $getLink = ShortLink::where('shrunk_url', $code)->first();
 
         // update tries when link is accessed
-        ShortLink::where('id', $getLink->id)
+        ShortLink::where('shrunk_url', $code)
         ->update([
             'tries' => $getLink->tries + 1
         ]);
@@ -74,9 +74,11 @@ class ShrinkController extends Controller
     public function viewLinks()
     {
         $shortLinks = ShortLink::latest()->get();
+        $domain = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        // $domain =  parse_url($actual_link);
 
         //scrape title 
         
-        return view('pages.shrink.view', compact('shortLinks'));
+        return view('pages.shrink.view', compact('shortLinks', 'domain'));
     }
 }
