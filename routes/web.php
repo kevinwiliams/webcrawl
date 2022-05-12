@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ShrinkController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/shrink', [ShrinkController::class, 'index']);
+Route::post('/shortn', [ShrinkController::class, 'shrink']);
+Route::get('/', [ShrinkController::class, 'viewLinks']);
+Route::get('/get/{id}', [ShrinkController::class, 'shorternLink']);
+
+
+
