@@ -29,10 +29,6 @@
         npm install
 
 
-8. The below command will compile all the assets(sass, js, media) to public folder:
-   
-        npm run dev
-
 
 9. Copy `.env.example` file and create duplicate. Use `cp` command for Linux or Max user.
 
@@ -44,6 +40,9 @@
    
 
 10. Create a table in MySQL database and fill the database details `DB_DATABASE` in `.env` file.
+
+
+11. Update the details `QUEUE_CONNECTION` in `.env` file from `sync` to `database`.
 
 
 12. The below command will create tables into database using Laravel migration and seeder.
@@ -59,3 +58,7 @@
 14. Start the localhost server:
     
         php artisan serve
+
+15. Start the artisan queue (process jobs in the background):
+    
+        php artisan queue:work
