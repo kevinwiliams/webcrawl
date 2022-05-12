@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/shrink', [ShrinkController::class, 'index']);
 Route::post('/shortn', [ShrinkController::class, 'shrink']);
 Route::get('/', [ShrinkController::class, 'viewLinks']);
-Route::get('/get/{id}', [ShrinkController::class, 'shorternLink']);
+Route::get('/{code}', [ShrinkController::class, 'shorternLink']);
 
 
 
