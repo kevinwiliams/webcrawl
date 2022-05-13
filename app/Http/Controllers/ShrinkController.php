@@ -90,7 +90,11 @@ class ShrinkController extends Controller
 
     public function getTopLinks(Request $request)
     {
-        $data['data'] = ShortLink::latest()->take(100)->get();
+        $data['data'] = ShortLink::select('url', 'tries', 'title')
+        ->take(100)
+        // ->where('tries', '>', 0)
+        ->orderBy('tries', 'DESC')
+        ->get();
 
         return response()->json($data);
     }
