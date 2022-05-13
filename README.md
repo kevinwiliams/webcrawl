@@ -1,3 +1,49 @@
+### Link Shrinker
+
+
+## GET Request
+
+```
+url: {domain}/api/top
+[{
+    "url": "http://jamaicaobserver.com/",
+    "tries": 2,
+    "title": "Front - Jamaica Observer"
+},
+{
+    "url": "http://facebook.com/",
+    "tries": 1,
+    "title": "Facebook - log in or sign up"
+},
+...
+
+]
+
+```
+
+## POST Request
+
+Request
+
+```
+url: {domain}/api/shortn
+{
+  "url":"http://www.msnbc.com/"
+}
+```
+
+Response
+
+```
+{
+    "url": "http://www.msnbc.com/",
+    "shrunk_url": "K36rH",
+    "link": "http://localhost:8000/K36rH",
+    "success": "Shorten Link Generated Successfully!"
+}
+```
+    
+
 ### Laravel Quick Start
 
 1. Download the latest source code.
