@@ -13,7 +13,7 @@
 
     <form method="POST" name="shrinkForm" action="/shortn" class="linkForm">
         @csrf <!-- {{ csrf_field() }} -->
-    <input type="text" name="url" value="" class="form-control">
+    <input type="url" name="url" value="" class="form-control" id="url">
     <button type="submit" name="submit" class="btn btn-success">Shrink URL</button>
     </form>
 
@@ -44,32 +44,47 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <script>
-
+    var elm;
+    function isValidURL(u){
+        if(!elm){
+            elm = document.createElement('input');
+            elm.setAttribute('type', 'url');
+        }
+        elm.value = u;
+        return elm.validity.valid;
+    }
     var frm = $(".linkForm");
     frm.on('submit', function(e){
         e.preventDefault(); 
+       
 
-        var formData = new FormData($(this)[0]);
-        $.ajax({
-            url: '{{ url("api/shortn") }}',
-            type: 'post',
-            dataType: 'json',
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            contentType: false,
-            cache: false,
-            processData: false,
-            data:  formData,
-            success: function(data)
-            {
-                alert(data.success);
-                location.reload();
-                
-            },
-            error: function(xhr)
-            {
+        if(($('#url').val() !="") && isValidURL($('#url').val())){
+            var formData = new FormData($(this)[0]);
+            $.ajax({
+                url: '{{ url("api/shortn") }}',
+                type: 'post',
+                dataType: 'json',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                contentType: false,
+                cache: false,
+                processData: false,
+                data:  formData,
+                success: function(data)
+                {
+                    alert(data.success);
+                    location.reload();
+                    
+                },
+                error: function(xhr)
+                {
 
-            }
-        });
+                }
+            });
+        }else{
+            alert('Please provide a valid URL');
+        }
+
+        
     });
 
 </script>
