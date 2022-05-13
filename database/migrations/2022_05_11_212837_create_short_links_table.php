@@ -18,7 +18,7 @@ class CreateShortLinksTable extends Migration
             $table->string('url');
             $table->string('shrunk_url');
             $table->string('title')->nullable();
-            $table->integer('tries')->nullable();
+            $table->integer('tries')->default('0');;
             $table->timestamps();
         });
     }
