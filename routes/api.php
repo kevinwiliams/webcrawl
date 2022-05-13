@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ShrinkController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//get top 100 links
+Route::get('/top', [ShrinkController::class, 'getTopLinks']);
+
+//shrink link
+Route::post('/shortn', [ShrinkController::class, 'shrink']);
+
+
+Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

@@ -28,7 +28,13 @@ class ShrinkController extends Controller
         //call function to get page title for submitted URL
         $this->getTitle($request->url);
 
-        return redirect('/')->with('success', 'Shorten Link Generated Successfully!');
+        $domain = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+        $data['link'] = $domain.'/'.$data['shrunk_url'];
+        $data['success'] = 'Shorten Link Generated Successfully!';
+
+        return response()->json($data);
+
+        // return redirect('/')->with('success', '');
 
 
     }
@@ -80,5 +86,12 @@ class ShrinkController extends Controller
         //scrape title 
         
         return view('pages.shrink.view', compact('shortLinks', 'domain'));
+    }
+
+    public function getTopLinks(Request $request)
+    {
+        $data['data'] = ShortLink::latest()->take(100)->get();
+
+        return response()->json($data);
     }
 }
